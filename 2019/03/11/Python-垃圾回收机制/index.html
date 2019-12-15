@@ -1,0 +1,834 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="GC 作为现代编程语言的自动内存管理机制，用于找到内存中无用的垃圾资源，并清除这些垃圾并把内存让出来给其他对象使用。 python 中的垃圾回收采用以引用计数机制为主，标记-清除和分代收集两种机制为辅的策略。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 垃圾回收机制">
+<meta property="og:url" content="https:&#x2F;&#x2F;xieyiyu.github.io&#x2F;2019&#x2F;03&#x2F;11&#x2F;Python-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6&#x2F;index.html">
+<meta property="og:site_name" content="Cactus Blog">
+<meta property="og:description" content="GC 作为现代编程语言的自动内存管理机制，用于找到内存中无用的垃圾资源，并清除这些垃圾并把内存让出来给其他对象使用。 python 中的垃圾回收采用以引用计数机制为主，标记-清除和分代收集两种机制为辅的策略。">
+<meta property="article:published_time" content="2019-03-11T11:00:37.000Z">
+<meta property="article:modified_time" content="2019-09-05T12:27:36.000Z">
+<meta property="article:author" content="Cactus">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xieyiyu.github.io/2019/03/11/Python-垃圾回收机制/"/>
+
+
+
+
+
+  <title>Python 垃圾回收机制 | Cactus Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cactus Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xieyiyu.github.io/2019/03/11/Python-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cactus">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cactus Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python 垃圾回收机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T19:00:37+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>GC 作为现代编程语言的自动内存管理机制，用于找到内存中无用的垃圾资源，并清除这些垃圾并把内存让出来给其他对象使用。</p>
+<p>python 中的垃圾回收采用以<strong>引用计数机制</strong>为主，<strong>标记-清除</strong>和<strong>分代收集</strong>两种机制为辅的策略。</p>
+<a id="more"></a>
+
+<h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>python 默认的垃圾回收机制是引用计数。</p>
+<p>原理：</p>
+<ol>
+<li>每个对象维护一个 ob_ref 字段，用来记录该对象当前被引用的次数。</li>
+<li>每当新的引用指向该对象时，它的引用计数 ob_ref + 1；每当该对象的引用失效时计数 ob_ref - 1。</li>
+<li>当对象的引用计数为 0，该对象立即被回收，对象占用的内存空间将被释放。</li>
+</ol>
+<p>缺点： 不能解决对象的循环引用问题</p>
+<h3 id="计数器-1-的情况"><a href="#计数器-1-的情况" class="headerlink" title="计数器 +1 的情况"></a>计数器 +1 的情况</h3><ul>
+<li>对象被创建，如 a = 23</li>
+<li>对象被引用，如 b = a</li>
+<li>对象被作为参数，传入到一个函数中，如 func(a)</li>
+<li>对象作为一个元素，存储在容器中，如 list1 = [a,a]</li>
+</ul>
+<h3 id="计数器-1-的情况-1"><a href="#计数器-1-的情况-1" class="headerlink" title="计数器 -1 的情况"></a>计数器 -1 的情况</h3><ul>
+<li>对象的别名被显式销毁，如 del a</li>
+<li>对象的别名被赋予新的对象，如 a = 24</li>
+<li>一个对象离开它的作用域，如 f 函数执行完毕时，func 函数中的局部变量（全局变量不会）</li>
+<li>对象所在的容器被销毁，或从容器中删除对象</li>
+</ul>
+<p>Python 源码中，通过 Py_INCREF 和 Py_DECREF 两个宏来管理对象的引用计数，代码在 object.h</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'object born id:%s'</span> % str(hex(id(self))))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(c)</span>:</span></span><br><span class="line">    print(<span class="string">'obejct refcount is: '</span>,sys.getrefcount(c)) <span class="comment"># getrefcount()方法用于返回对象的引用计数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    a = A() <span class="comment"># 生成对象</span></span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    b = a <span class="comment"># 增加引用</span></span><br><span class="line">    func(a)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">del</span> b <span class="comment"># 销毁引用对象b</span></span><br><span class="line">    func(a)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">object born id:0x2e1694e6eb8</span><br><span class="line">obejct refcount is:  4</span><br><span class="line">obejct refcount is:  5</span><br><span class="line">obejct refcount is:  4</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>循环引用是一个对象直接或者间接引用自己本身，引用链形成一个环。</p>
+<p>A 和 B 相互引用，而再没有外部引用 A 与 B 中的任何一个，它们的引用计数虽然都为 1，但显然应该被回收。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = &#123; &#125; <span class="comment"># a 的引用计数为 1</span></span><br><span class="line">b = &#123; &#125; <span class="comment"># b 的引用计数为 1</span></span><br><span class="line">a[<span class="string">'b'</span>] = b  <span class="comment"># b 的引用计数 + 1</span></span><br><span class="line">b[<span class="string">'a'</span>] = a  <span class="comment"># a 的引用计数 + 1</span></span><br><span class="line"><span class="keyword">del</span> a <span class="comment"># a 的引用 - 1，最后 a 的引用为 1</span></span><br><span class="line"><span class="keyword">del</span> b <span class="comment"># b 的引用 - 1, 最后 b 的引用为 1</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完 del 后，a、b 已经没有任何引用指向这两个对象，但是这两个对象各包含一个对方对象的引用，虽然最后两个对象都无法通过其它变量来引用这两个对象了。<br>这对 GC 来说是两个垃圾对象，但是他们的引用计数并没有减少到零。因此用引用计数法，他们不会被回收，会一直驻留在内存中，就会造成了内存泄漏（内存空间在使用完毕后未释放）。</p>
+<p>为了解决对象的循环引用问题，python 引入了标记-清除和分代回收两种 GC 机制。</p>
+<h2 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h2><p>标记清除（Mark—Sweep）算法是一种基于追踪回收（tracing GC）技术实现的垃圾回收算法。</p>
+<p>python 的循环引用一般发生在容器对象（内部可持有对其他对象的引用）之间， 因此标记清除法主要处理的一些容器对象，如 list、dict、tuple，instance 等，python 使用一个双向链表将这些容器对象组织起来。</p>
+<p>两个阶段：</p>
+<ol>
+<li>标记阶段，GC 把所有的活动对象打上标记（垃圾检测）</li>
+<li>将没有标记的对象（即非活动对象）回收</li>
+</ol>
+<p>GC 通过有向连通图来判断活动对象和非活动对象。对象构成有向图的节点，引用关系构成有向图的边，从根对象出发，沿着有向边遍历对象，可达的对象标记为活动对象，不可达的对象即要被清除的非活动对象。根对象是全局变量、调用栈、寄存器。</p>
+<ol>
+<li>对于每一个容器对象, 设置一个 gc_refs 值, 并将其初始化为该对象的引用计数值.</li>
+<li>对于每一个容器对象, 找到所有其引用的对象, 将被引用对象的 gc_refs 值减 1.</li>
+<li>执行完步骤 2 以后所有 gc_refs 值还大于 0 的对象都被非容器对象引用着, 至少存在一个非循环引用. 因此 不能释放这些对象, 将他们放入另一个集合.</li>
+<li>在步骤 3 中不能被释放的对象, 如果他们引用着某个对象, 被引用的对象也是不能被释放的, 因此将这些 对象也放入另一个集合中.</li>
+<li>此时还剩下的对象都是无法到达的对象. 现在可以释放这些对象了.</li>
+</ol>
+<p>缺点：清除非活动的对象前必须顺序扫描整个堆内存，哪怕只剩下小部分活动对象也要扫描所有对象。</p>
+<h2 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h2><p>分代回收是以空间换时间的操作方式，是建立在标记清除技术基础之上，也是用于处理容器对象。</p>
+<p>python 将内存根据对象的存活时间划分为不同的集合，每个集合称为一个代。 分为 3 “代”： 年轻代（第 0 代）、中年代（第 1 代）、老年代（第 2 代），对应的是 3 个链表，它们的垃圾收集频率根据对象的存活时间的增大而减小。</p>
+<p>新创建的对象都分配在第 0 代，第 0 代链表的总数达到上限时，python 垃圾收集机制就会被触发，把可以被回收的对象回收掉，而不会回收的对象被移到第 2 代去，依此类推，第 3 代中的对象是存活时间最久的对象，甚至是存活于整个系统的生命周期内。</p>
+<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p>三种情况会触发垃圾回收：</p>
+<ol>
+<li>import gc 模块，显式调用 gc.collect()</li>
+<li>当 gc 模块的计数器达到垃圾回收的阀值时，自动执行</li>
+<li>程序退出时</li>
+</ol>
+<h3 id="gc-模块"><a href="#gc-模块" class="headerlink" title="gc 模块"></a>gc 模块</h3><p>gc 模块提供一个接口给开发者设置垃圾回收的选项，gc 的一个主要功能就是解决循环引用的问题。</p>
+<p><strong>常用函数：</strong></p>
+<ol>
+<li><p>gc.set_debug(flags)： 设置 gc 的 debug 日志，一般设置为 gc.DEBUG_LEAK</p>
+</li>
+<li><p>gc.collect([generation]) 显式垃圾回收，可以输入参数，0 代表只检查第一代的对象，1 代表检查一，二代的对象，2 代表检查一，二，三代的对象，不指定默认为 2。 返回不可达对象的数目。</p>
+</li>
+<li><p>gc.set_threshold(threshold0[, threshold1[, threshold2]) 设置自动执行垃圾回收的频率。</p>
+</li>
+<li><p>gc.get_count() 获取当前自动执行垃圾回收的计数器，返回一个长度为 3 的列表</p>
+</li>
+</ol>
+<p><strong>注意：</strong><br>如果循环引用中，两个对象都定义了 <code>__del__</code> 方法，gc 模块不会销毁这些不可达对象，因为 gc 模块不知道应该先调用哪个对象的 <code>__del__</code> 方法，所以为了安全起见，gc 模块会把对象放到 gc.garbage 中，但是不会销毁对象，需要显式调用 gc.garbage 里面的对象的 <code>__del__</code> 来打破僵局。</p>
+<h2 id="python-内存泄露"><a href="#python-内存泄露" class="headerlink" title="python 内存泄露"></a>python 内存泄露</h2><p>内存泄露的几种情况：</p>
+<ol>
+<li>存在循环引用，gc 不能释放</li>
+<li>存在全局对象，该对象不断的变大，占据内存</li>
+<li>使用了 c 或者 c++ 扩展，扩展内存溢出了</li>
+</ol>
+<h3 id="查找内存泄露：-使用-gc-、objgraph"><a href="#查找内存泄露：-使用-gc-、objgraph" class="headerlink" title="查找内存泄露： 使用 gc 、objgraph"></a>查找内存泄露： 使用 gc 、objgraph</h3><p>objgraph 的实现调用了 gc 的这几个函数：gc.get_objects(), gc.get_referents(), gc.get_referers()，然后构造出对象之间的引用关系。</p>
+<p>如果我们怀疑一段代码、一个模块可能会导致内存泄露，那么首先调用一次 obj.show_growth()， 然后调用相应的函数，最后再次调用 obj.show_growth()，看看是否有增加的对象。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://sutune.me/2018/10/14/python-GC/" target="_blank" rel="noopener">Python 垃圾回收机制</a><br><a href="#https://www.cnblogs.com/xybaby/p/7491656.html">使用gc、objgraph干掉python内存泄露与循环引用！</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/07/Python-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="Python 正则表达式">
+                <i class="fa fa-chevron-left"></i> Python 正则表达式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/22/%E6%95%B0%E5%80%BC%E7%9A%84%E8%A1%A8%E7%A4%BA/" rel="prev" title="数值的表示">
+                数值的表示 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Cactus" />
+          <p class="site-author-name" itemprop="name">Cactus</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xieyiyu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/cactus4869" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引用计数"><span class="nav-number">1.</span> <span class="nav-text">引用计数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计数器-1-的情况"><span class="nav-number">1.1.</span> <span class="nav-text">计数器 +1 的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计数器-1-的情况-1"><span class="nav-number">1.2.</span> <span class="nav-text">计数器 -1 的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环引用"><span class="nav-number">1.3.</span> <span class="nav-text">循环引用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标记清除"><span class="nav-number">2.</span> <span class="nav-text">标记清除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分代回收"><span class="nav-number">3.</span> <span class="nav-text">分代回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾回收"><span class="nav-number">4.</span> <span class="nav-text">垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gc-模块"><span class="nav-number">4.1.</span> <span class="nav-text">gc 模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-内存泄露"><span class="nav-number">5.</span> <span class="nav-text">python 内存泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找内存泄露：-使用-gc-、objgraph"><span class="nav-number">5.1.</span> <span class="nav-text">查找内存泄露： 使用 gc 、objgraph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cactus</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
