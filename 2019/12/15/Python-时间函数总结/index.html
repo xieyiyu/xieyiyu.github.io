@@ -96,11 +96,11 @@
 <meta name="description" content="在实际开发中，常常需要用到日期和时间，并将其进行格式化处理，在 Python 中的时间模块常用的是 time 和 datetime，这两个模块中的方法容易混淆，特此对 Python 中的日期时间获取与格式化进行梳理总结。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python 时间函数总结">
-<meta property="og:url" content="https:&#x2F;&#x2F;xieyiyu.github.io&#x2F;2019&#x2F;12&#x2F;15&#x2F;python&#x2F;Python-%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;xieyiyu.github.io&#x2F;2019&#x2F;12&#x2F;15&#x2F;Python-%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93&#x2F;index.html">
 <meta property="og:site_name" content="Cactus Blog">
 <meta property="og:description" content="在实际开发中，常常需要用到日期和时间，并将其进行格式化处理，在 Python 中的时间模块常用的是 time 和 datetime，这两个模块中的方法容易混淆，特此对 Python 中的日期时间获取与格式化进行梳理总结。">
 <meta property="article:published_time" content="2019-12-15T02:55:51.000Z">
-<meta property="article:modified_time" content="2019-12-18T13:26:37.000Z">
+<meta property="article:modified_time" content="2020-01-06T03:46:06.000Z">
 <meta property="article:author" content="Cactus">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://xieyiyu.github.io/2019/12/15/python/Python-时间函数总结/"/>
+  <link rel="canonical" href="https://xieyiyu.github.io/2019/12/15/Python-时间函数总结/"/>
 
 
 
@@ -276,7 +276,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://xieyiyu.github.io/2019/12/15/python/Python-%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="https://xieyiyu.github.io/2019/12/15/Python-%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Cactus">
@@ -385,7 +385,7 @@
 <p>在使用过程中，常需要在三种时间格式之间进行相应的转换，以得到我们想要的表现格式。</p>
 <h3 id="time-模块"><a href="#time-模块" class="headerlink" title="time 模块"></a>time 模块</h3><p>在 time 模块中，获取当前时间只有一种方式，使用<code>time.time()</code>，但得到的是时间戳格式的时间，想要获取时间元组和格式化时间，只能进行转换。</p>
 <h4 id="timestamp-与-struct-time"><a href="#timestamp-与-struct-time" class="headerlink" title="timestamp 与 struct_time"></a>timestamp 与 struct_time</h4><p>localtime 和 gmtime 方法都可以将时间戳转化为时间元组，如果不传入参数默认为当前时间。localtime 转的是本地时间， gmtime 是世界标准时间。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># struct_time to timestamp</span></span><br><span class="line">time.mktime(time.localtime())</span><br><span class="line"></span><br><span class="line"><span class="comment"># timestamp to struct_time</span></span><br><span class="line">t = time.time() <span class="comment"># 1576397965.253168</span></span><br><span class="line">time.localtime(t)</span><br><span class="line"><span class="comment"># time.struct_time(tm_year=2019, tm_mon=12, tm_mday=15, tm_hour=16, tm_min=19, tm_sec=25, tm_wday=6, tm_yday=349, tm_isdst=0)</span></span><br><span class="line"></span><br><span class="line">time.gmtime(t)</span><br><span class="line"><span class="comment"># time.struct_time(tm_year=2019, tm_mon=12, tm_mday=15, tm_hour=8, tm_min=19, tm_sec=25, tm_wday=6, tm_yday=349, tm_isdst=0)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># struct_time to timestamp</span></span><br><span class="line">time.mktime(time.localtime())</span><br><span class="line"></span><br><span class="line"><span class="comment"># timestamp to struct_time</span></span><br><span class="line">t = time.time() <span class="comment"># 1576397965.253168</span></span><br><span class="line">time.localtime(t)</span><br><span class="line"><span class="comment"># time.struct_time(tm_year=2019, tm_mon=12, tm_mday=15, tm_hour=16, tm_min=19, tm_sec=25, tm_wday=6, tm_yday=349, tm_isdst=0)</span></span><br><span class="line"></span><br><span class="line">t = time.struct_time(tm_year=<span class="number">2019</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">15</span>, tm_hour=<span class="number">16</span>, tm_min=<span class="number">19</span>, tm_sec=<span class="number">25</span>, tm_wday=<span class="number">6</span>, tm_yday=<span class="number">349</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">time.gmtime(t)</span><br><span class="line"><span class="comment"># time.struct_time(tm_year=2019, tm_mon=12, tm_mday=15, tm_hour=8, tm_min=19, tm_sec=25, tm_wday=6, tm_yday=349, tm_isdst=0)</span></span><br></pre></td></tr></table></figure>
 
 <h5 id="struct-time"><a href="#struct-time" class="headerlink" title="struct_time"></a>struct_time</h5><table>
 <thead>
@@ -583,8 +583,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/25/python/Python-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/" rel="next" title="Python 数据结构底层实现">
-                <i class="fa fa-chevron-left"></i> Python 数据结构底层实现
+              <a href="/2019/12/15/python/Python-%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/" rel="next" title="Python 时间函数总结">
+                <i class="fa fa-chevron-left"></i> Python 时间函数总结
               </a>
             
           </div>
@@ -592,10 +592,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/15/Python-%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/" rel="prev" title="Python 时间函数总结">
-                Python 时间函数总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
