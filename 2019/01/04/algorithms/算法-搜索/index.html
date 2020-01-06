@@ -1,0 +1,891 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="leetcode,算法,DFS,BFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode 搜索算法">
+<meta property="og:url" content="https:&#x2F;&#x2F;xieyiyu.github.io&#x2F;2019&#x2F;01&#x2F;04&#x2F;algorithms&#x2F;%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2&#x2F;index.html">
+<meta property="og:site_name" content="Cactus Blog">
+<meta property="og:description" content="在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。">
+<meta property="og:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;BFS.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;DFS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;n-queens.png">
+<meta property="article:published_time" content="2019-01-04T09:26:07.000Z">
+<meta property="article:modified_time" content="2019-07-28T05:32:34.000Z">
+<meta property="article:author" content="Cactus">
+<meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="DFS">
+<meta property="article:tag" content="BFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;BFS.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xieyiyu.github.io/2019/01/04/algorithms/算法-搜索/"/>
+
+
+
+
+
+  <title>leetcode 搜索算法 | Cactus Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cactus Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cactus">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cactus Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">leetcode 搜索算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-04T17:26:07+08:00">
+                2019-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。</p>
+<a id="more"></a>
+
+<h2 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h2><div align="center"><img src="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/BFS.jpg"></div>
+
+<p>BFS 广度优先搜索的搜索过程是一层一层地进行遍历，每层遍历都以上一层遍历的结果作为起点，遍历一个距离能访问到的所有节点。需要注意的是，遍历过的节点不能再次被遍历。  </p>
+<p>第一层：<br>0 -&gt; {6,2,1,5};  </p>
+<p>第二层：<br>6 -&gt; {4}<br>2 -&gt; {}<br>1 -&gt; {}<br>5 -&gt; {3}  </p>
+<p>第三层：<br>4 -&gt; {}<br>3 -&gt; {}  </p>
+<p>上述过程可知：是反复从新节点出发进行遍历操作。  </p>
+<p>每一轮遍历的节点都与根节点路径长度相同。设 d<sub>i</sub> 表示第 i 个节点与根节点的路径长度，可以推导出结论：对于先遍历的节点 i 与后遍历的节点 j，有 d<sub>i</sub>&lt;=d<sub>j</sub>。<br>利用上述结论，可以求解最短路径  <strong>最优解</strong>  问题：第一次遍历到目的节点，其所经过的路径为最短路径，如果继续遍历，之后再遍历到目的节点，所经过的路径就不是最短路径。  </p>
+<p>在程序实现 BFS 时需要考虑以下问题：</p>
+<ul>
+<li>队列：用来存储每一轮遍历的节点。</li>
+<li>标记：对于已经遍历的节点，需要标记，避免重复遍历。</li>
+</ul>
+<h2 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h2><div align="center"><img src="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/DFS.png"></div>
+
+<p>深度优先搜索在得到一个新节点时立马对新节点进行遍历：<br>从节点 0 出发开始遍历，得到到新节点 6 时，立马对新节点 6 进行遍历，得到新节点 4；<br>如此反复以这种方式遍历新节点，直到没有新节点了，此时返回。返回到根节点 0 的情况是，继续对根节点 0 进行遍历，得到新节点 2，然后继续以上步骤。  </p>
+<p>从一个节点出发，使用 DFS 对一个图进行遍历时，能够遍历到的节点都是从初始节点可达的，DFS 常用来求解 <strong>可达性</strong> 问题。  </p>
+<p>在程序实现 DFS 时需要考虑以下问题：  </p>
+<ul>
+<li>栈：用来存储当前节点信息，当遍历新节点返回时能够继续遍历当前节点。也可以使用递归栈。</li>
+<li>标记：对已经遍历过的节点进行标记。</li>
+</ul>
+<h2 id="Backtracking"><a href="#Backtracking" class="headerlink" title="Backtracking"></a>Backtracking</h2><p>回溯法属于 DFS ，主要用于求解 <strong>排列组合</strong> 问题。<br>在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
+<p>因为 Backtracking 不是立即就返回，而要继续求解，因此在程序实现时，需要注意对元素的标记问题：</p>
+<ul>
+<li>在访问一个新元素进入新的递归调用时，需要将新元素标记为已经访问，这样才能在继续递归调用时不用重复访问该元素；</li>
+<li>但是在递归返回时，需要将元素标记为未访问，因为只需要保证在一个递归链中不同时访问一个元素，可以访问已经访问过但是不在当前递归链中的元素。  </li>
+</ul>
+<p><strong>一般看到所有的组合问题，则用回溯法</strong></p>
+<h3 id="Letter-Combinations-of-a-Phone-Number"><a href="#Letter-Combinations-of-a-Phone-Number" class="headerlink" title="Letter Combinations of a Phone Number"></a>Letter Combinations of a Phone Number</h3><p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/" target="_blank" rel="noopener">Leetcode : 17. Letter Combinations of a Phone Number(Medium)</a></p>
+<p>思路：运用 DFS</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">letterCombinations</span><span class="params">(self, digits)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> digits:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    </span><br><span class="line">    dict = &#123;<span class="string">'2'</span>: [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>],</span><br><span class="line">            <span class="string">'3'</span>: [<span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>],</span><br><span class="line">            <span class="string">'4'</span>: [<span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>],</span><br><span class="line">            <span class="string">'5'</span>: [<span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'l'</span>],</span><br><span class="line">            <span class="string">'6'</span>: [<span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>],</span><br><span class="line">            <span class="string">'7'</span>: [<span class="string">'p'</span>, <span class="string">'q'</span>, <span class="string">'r'</span>, <span class="string">'s'</span>],</span><br><span class="line">            <span class="string">'8'</span>: [<span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>],</span><br><span class="line">            <span class="string">'9'</span>: [<span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>]&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(d, string)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> d:</span><br><span class="line">            res.append(string)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        </span><br><span class="line">        num = d[<span class="number">0</span>]</span><br><span class="line">        rest_num = d[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> dict[num]:</span><br><span class="line">            dfs(rest_num, string+char)</span><br><span class="line">            </span><br><span class="line">    res = []</span><br><span class="line">    dfs(digits, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Generate-Parentheses"><a href="#Generate-Parentheses" class="headerlink" title="Generate Parentheses"></a>Generate Parentheses</h3><p><a href="https://leetcode.com/problems/generate-parentheses/description/" target="_blank" rel="noopener">Leetcode : 22. Generate Parentheses(Medium)</a></p>
+<p>思路：括号的长度是 2n，在 [1, 2n] 之间，左括号的数量必定是小于等于右括号的数量，但右括号的数量小于左括号的数量时，则终止递归。<br>因此用 DFS， left 代表左括号的数量，right 代表右括号的数量，如果左括号有剩余，就在结果上 + ‘(‘。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(left, right, string)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> right &lt; left:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">if</span> left == <span class="number">0</span> <span class="keyword">and</span> right == <span class="number">0</span>:</span><br><span class="line">            res.append(string)</span><br><span class="line">        <span class="keyword">if</span> left &gt; <span class="number">0</span>:</span><br><span class="line">            dfs(left<span class="number">-1</span>, right, string + <span class="string">'('</span>)</span><br><span class="line">        <span class="keyword">if</span> right &gt; <span class="number">0</span>:</span><br><span class="line">            dfs(left, right<span class="number">-1</span>, string + <span class="string">')'</span>)</span><br><span class="line">    dfs(n, n, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Combination-Sum"><a href="#Combination-Sum" class="headerlink" title="Combination Sum"></a>Combination Sum</h3><p><a href="https://leetcode.com/problems/combination-sum/description/" target="_blank" rel="noopener">Leetcode : 39. Combination Sum(Medium)</a></p>
+<p>思路：用 DFS，要注意的是每次循环遍历需要从当前位置之后开始遍历，否则会出现重复计算。<br>且 arr 不能用 arr.append, 会造成两种问题：</p>
+<ul>
+<li>若在 dfs 的参数中用 arr.append, 相当于是 arr = arr.append, 执行后发现 arr 的类型变为了 NoneType。 因为 append 会修改 arr 本身，并且返回 None，不能把返回值再赋值给 a。</li>
+<li>若在调用 dfs 之前，单独用 arr.append(cans[i])，会一直往 arr 里面加元素。<br>因此需要用 arr+[cans[i]] 来追加元素。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">combinationSum</span><span class="params">(self, candidates, target)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cans, tar, start, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> tar &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">if</span> tar == <span class="number">0</span>:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(start, len(cans)):</span><br><span class="line">            <span class="keyword">if</span> cans[i] &lt;= tar:</span><br><span class="line">                dfs(cans, tar-cans[i], i, arr+[cans[i]])</span><br><span class="line">    </span><br><span class="line">    dfs(candidates, target, <span class="number">0</span>, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Combination-Sum-II"><a href="#Combination-Sum-II" class="headerlink" title="Combination Sum II"></a>Combination Sum II</h3><p><a href="https://leetcode.com/problems/combination-sum-ii/description/" target="_blank" rel="noopener">Leetcode : 40. Combination Sum II(Medium)</a></p>
+<p>思路：由于一个数字用多次，因此递归时要从 cans[i+1:] 开始</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">combinationSum2</span><span class="params">(self, candidates, target)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cans, tar, start, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> tar &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">if</span> tar == <span class="number">0</span> <span class="keyword">and</span> arr <span class="keyword">not</span> <span class="keyword">in</span> res:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(cans)):</span><br><span class="line">            <span class="keyword">if</span> cans[i] &lt;= tar:</span><br><span class="line">                dfs(cans[i+<span class="number">1</span>:], tar-cans[i], i+<span class="number">1</span>, arr+[cans[i]])</span><br><span class="line">    candidates = sorted(candidates)</span><br><span class="line">    dfs(candidates, target, <span class="number">0</span>, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Combination-Sum-III"><a href="#Combination-Sum-III" class="headerlink" title="Combination Sum III"></a>Combination Sum III</h3><p><a href="https://leetcode.com/problems/combination-sum-iii/description/" target="_blank" rel="noopener">Leetcode : 216. Combination Sum III(Medium)</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">combinationSum3</span><span class="params">(self, k, n)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    nums = [i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>)]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(nums, target, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> target &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">if</span> target == <span class="number">0</span> <span class="keyword">and</span> len(arr) == k <span class="keyword">and</span> sorted(nums) <span class="keyword">not</span> <span class="keyword">in</span> res:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            dfs(nums[i+<span class="number">1</span>:], target-nums[i], arr + [nums[i]])</span><br><span class="line">    </span><br><span class="line">    dfs(nums, n, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Permutations"><a href="#Permutations" class="headerlink" title="Permutations"></a>Permutations</h3><p><a href="https://leetcode.com/problems/permutations/description/" target="_blank" rel="noopener">Leetcode : 46. Permutations(Medium)</a></p>
+<p>数组元素不重复，排列组合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">permute</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(n, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> n:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(n)):</span><br><span class="line">            dfs(n[:i]+n[i+<span class="number">1</span>:], arr+[n[i]])</span><br><span class="line">        </span><br><span class="line">    dfs(nums, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<p>备注：不要用 pop()，会改变原数组，导致最后数组为空，直接 n[:i]+n[i+1:] 表示删除第 i 个数</p>
+<h3 id="Permutations-II"><a href="#Permutations-II" class="headerlink" title="Permutations II"></a>Permutations II</h3><p><a href="https://leetcode.com/problems/permutations-ii/description/" target="_blank" rel="noopener">Leetcode : 47. Permutations II(Medium)</a></p>
+<p>数组元素重复，排列组合。  </p>
+<p>直接在上一题的基础上添加条件 if not n and arr not in res，会超时。<br>为了提交效率，可以先对 nums 排序，那么相同的元素会在一起，在遍历时，如果遇到相同的元素，其结果会和之前的元素相同，就不要重复递归了。由于添加了元素是否重复的判断，那么得到的 arr 便也不会重复了，因此 if not n 后面不用再接着判断 arr 是否存在于 res 中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">permuteUnique</span><span class="params">(self, nums)</span>:</span>=</span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(n, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> n:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(n)):</span><br><span class="line">            <span class="keyword">if</span> i &gt; <span class="number">0</span> <span class="keyword">and</span> n[i] == n[i<span class="number">-1</span>]:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            dfs(n[:i]+n[i+<span class="number">1</span>:], arr+[n[i]])</span><br><span class="line">            </span><br><span class="line">    nums.sort()</span><br><span class="line">    dfs(nums, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="N-Queens"><a href="#N-Queens" class="headerlink" title="N-Queens"></a>N-Queens</h3><p><a href="https://leetcode.com/problems/n-queens/description/" target="_blank" rel="noopener">Leetcode : 51. N-Queens(Hard)</a></p>
+<blockquote>
+<p>The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other<br>Given an integer n, return all distinct solutions to the n-queens puzzle.<br>Each solution contains a distinct board configuration of the n-queens’ placement, where ‘Q’ and ‘.’ both indicate a queen and an empty space respectively.  </p>
+</blockquote>
+<div align="center"><img src="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/n-queens.png"></div>
+
+<p>N 皇后问题，需要使得任意两个皇后不能处于同一行、同一列或同一斜线上，打印出所有的解法。<br>思路：可以一行一行的，从左到右尝试皇后的摆放，若有冲突，则回溯。<br>可以使用一维数组简化摆放，例 a[0] = 2，表示第 1 行的第 2 列摆放皇后，这样可以无需判断两个皇后是否会处于同一行。<br>需要定义一个 check(i, j) 函数来判断 (i, j) 是否可以摆放皇后。</p>
+<ul>
+<li>不在同一列</li>
+<li>不在同一斜线，即若有两个皇后的位置为 (i1, j1) 和 (i2, j2), 不能有 (i1-i2) == (j1-j2) 的情况</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solveNQueens</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type n: int</span></span><br><span class="line"><span class="string">    :rtype: List[List[str]]</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(i, j)</span>:</span> <span class="comment"># 判断第 i 个皇后能否放在第 j 列，由于是一行一行的放置，因此也就是能否放在第 i 行的第 j 列</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(i): <span class="comment"># 与前 i-1 行进行比较 </span></span><br><span class="line">            <span class="keyword">if</span> board[k] == j <span class="keyword">or</span> abs(k-i) == abs(board[k]-j): <span class="comment"># 判断是否会和第 k 行的皇后在同一列或同一对角线</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(col, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> col == n:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n): <span class="comment"># 一行行的放皇后，每行的每列开始尝试</span></span><br><span class="line">            <span class="keyword">if</span> check(col, j): <span class="comment"># 如果第 col 行的 第 j 列可以放置</span></span><br><span class="line">                board[col] = j</span><br><span class="line">                s = <span class="string">'.'</span> * n <span class="comment"># 初始化需要打印的结果</span></span><br><span class="line">                dfs(col+<span class="number">1</span>, arr+[s[:j]+<span class="string">'Q'</span>+s[j+<span class="number">1</span>:]])</span><br><span class="line">    </span><br><span class="line">    res = []</span><br><span class="line">    board = [<span class="number">-1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)] <span class="comment"># 初始化棋盘</span></span><br><span class="line">    dfs(<span class="number">0</span>, []) <span class="comment"># 从第 0 行开始摆放棋子</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="N-Queens-II"><a href="#N-Queens-II" class="headerlink" title="N-Queens II"></a>N-Queens II</h3><p><a href="https://leetcode.com/problems/n-queens-ii/description/" target="_blank" rel="noopener">Leetcode : 52. N-Queens II(Hard)</a></p>
+<blockquote>
+<p>上一题是输出所有的解决方案，该题只需要输出解决方案的个数</p>
+</blockquote>
+<p>直接调用上一题的结果，输出长度即可。或者把 res 直接变为计数，提高效率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">totalNQueens</span><span class="params">(self, n)</span>:</span></span><br><span class="line">       <span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(i, j)</span>:</span></span><br><span class="line">           <span class="keyword">for</span> k <span class="keyword">in</span> range(i):</span><br><span class="line">               <span class="keyword">if</span> board[k] == j <span class="keyword">or</span> abs(board[k]-j) == abs(k-i):</span><br><span class="line">                   <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">           <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">       </span><br><span class="line">       <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(col)</span>:</span></span><br><span class="line">           <span class="keyword">if</span> col == n:</span><br><span class="line">               self.res += <span class="number">1</span></span><br><span class="line">               <span class="keyword">return</span> </span><br><span class="line">           <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">               <span class="keyword">if</span> check(col, j):</span><br><span class="line">                   board[col] = j</span><br><span class="line">                   dfs(col+<span class="number">1</span>)</span><br><span class="line">       </span><br><span class="line">       self.res = <span class="number">0</span></span><br><span class="line">       board = [<span class="number">-1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">       dfs(<span class="number">0</span>)</span><br><span class="line">       <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Combinations"><a href="#Combinations" class="headerlink" title="Combinations"></a>Combinations</h3><p><a href="https://leetcode.com/problems/combinations/description/" target="_blank" rel="noopener">Leetcode : 77. Combinations(Medium)</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">combine</span><span class="params">(self, n, k)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    nums = [i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n+<span class="number">1</span>)]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(nums, k, arr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> len(arr) == k <span class="keyword">and</span> sorted(arr) <span class="keyword">not</span> <span class="keyword">in</span> res:</span><br><span class="line">            res.append(arr)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            dfs(nums[i+<span class="number">1</span>:], k, arr+[nums[i]])</span><br><span class="line">            </span><br><span class="line">    dfs(nums, k, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Subsets"><a href="#Subsets" class="headerlink" title="Subsets"></a>Subsets</h3><p><a href="https://leetcode.com/problems/subsets/description/" target="_blank" rel="noopener">Leetcode : 78. Subsets(Medium)</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsets</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(nums, arr)</span>:</span></span><br><span class="line">        res.append(arr)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            dfs(nums[i+<span class="number">1</span>:], arr+[nums[i]])</span><br><span class="line">    </span><br><span class="line">    dfs(sorted(nums), [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Subsets-II"><a href="#Subsets-II" class="headerlink" title="Subsets II"></a>Subsets II</h3><p><a href="https://leetcode.com/problems/subsets-ii/description/" target="_blank" rel="noopener">Leetcode : 90. Subsets II(Medium)</a></p>
+<p>nums 变为包含重复数字，其余与上题一样。<br>只需要在 res.append(arr) 之前添加判断条件 if arr not in res 即可。</p>
+<h3 id="Word-Search"><a href="#Word-Search" class="headerlink" title="Word Search"></a>Word Search</h3><p><a href="https://leetcode.com/problems/word-search/description/" target="_blank" rel="noopener">Leetcode : 79. Word Search(Medium)</a></p>
+<p>思路： 先找到第一个字母的位置，再从此位置<strong>上下左右</strong> 去 DFS，要注意的是已经访问过的节点需要标记，否则之后会再访问到该节点。并且在遍历完之后需要把该节点改回原来的值，不然可能有其他的路径到达 word，board 的节点值不能改变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exist</span><span class="params">(self, board, word)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type board: List[List[str]]</span></span><br><span class="line"><span class="string">    :type word: str</span></span><br><span class="line"><span class="string">    :rtype: bool</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    n = len(board)</span><br><span class="line">    m = len(board[<span class="number">0</span>])</span><br><span class="line">    visited = [[<span class="literal">False</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(m)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(n)]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(i, j, k)</span>:</span> <span class="comment"># 找第 k 个字母</span></span><br><span class="line">        <span class="keyword">if</span> k == len(word):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> i<span class="number">-1</span> &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> visited[i<span class="number">-1</span>][j] <span class="keyword">and</span> board[i<span class="number">-1</span>][j] == word[k]: <span class="comment"># 向上</span></span><br><span class="line">            visited[i<span class="number">-1</span>][j] = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">if</span> dfs(i<span class="number">-1</span>, j, k+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            visited[i<span class="number">-1</span>][j] = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> j<span class="number">-1</span> &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> visited[i][j<span class="number">-1</span>] <span class="keyword">and</span> board[i][j<span class="number">-1</span>] == word[k]: <span class="comment"># 向左</span></span><br><span class="line">            visited[i][j<span class="number">-1</span>] = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">if</span> dfs(i, j<span class="number">-1</span>, k+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            visited[i][j<span class="number">-1</span>] = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> i+<span class="number">1</span> &lt; n <span class="keyword">and</span> <span class="keyword">not</span> visited[i+<span class="number">1</span>][j] <span class="keyword">and</span> board[i+<span class="number">1</span>][j] == word[k]: <span class="comment"># 向下</span></span><br><span class="line">            visited[i+<span class="number">1</span>][j] = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">if</span> dfs(i+<span class="number">1</span>, j, k+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            visited[i+<span class="number">1</span>][j] = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> j+<span class="number">1</span> &lt; m <span class="keyword">and</span> <span class="keyword">not</span> visited[i][j+<span class="number">1</span>] <span class="keyword">and</span> board[i][j+<span class="number">1</span>] == word[k]: <span class="comment"># 向右</span></span><br><span class="line">            visited[i][j+<span class="number">1</span>] = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">if</span> dfs(i, j+<span class="number">1</span>, k+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            visited[i][j+<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line">                 </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="keyword">if</span> board[i][j] == word[<span class="number">0</span>]:</span><br><span class="line">                visited[i][j] = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">if</span> dfs(i, j, <span class="number">1</span>):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                visited[i][j] = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Restore-IP-Addresses"><a href="#Restore-IP-Addresses" class="headerlink" title="Restore IP Addresses"></a>Restore IP Addresses</h3><p><a href="https://leetcode.com/problems/restore-ip-addresses/description/" target="_blank" rel="noopener">Leetcode : 93. Restore IP Addresses(Medium)</a></p>
+<blockquote>
+<p>Given a string containing only digits, restore it by returning all possible valid IP address combinations.<br>Input: “25525511135”<br>Output: [“255.255.11.135”, “255.255.111.35”]</p>
+</blockquote>
+<p>思路：合法 IP 地址分为四部分，每个部分的长度为 1-3 位， 大小为 0-255 之间</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">restoreIpAddresses</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(s) &gt; <span class="number">12</span>:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    res = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(s, ip)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> s <span class="keyword">and</span> len(ip) == <span class="number">4</span>:</span><br><span class="line">            res.append(<span class="string">'.'</span>.join(ip)) </span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">4</span>): </span><br><span class="line">            <span class="keyword">if</span> i &lt;= len(s):</span><br><span class="line">                number = int(s[:i]) <span class="comment"># 此处为了防止出现两位数以上，0 开头的情况。</span></span><br><span class="line">                <span class="keyword">if</span> number &lt;= <span class="number">255</span> <span class="keyword">and</span> str(number) == s[:i]:</span><br><span class="line">                    dfs(s[i:], ip+[s[:i]])</span><br><span class="line">    dfs(s, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h3 id="Palindrome-Partitioning"><a href="#Palindrome-Partitioning" class="headerlink" title="Palindrome Partitioning"></a>Palindrome Partitioning</h3><p><a href="https://leetcode.com/problems/palindrome-partitioning/description/" target="_blank" rel="noopener">Leetcode : 131. Palindrome Partitioning (Medium)</a></p>
+<p>所有可能的结果：回溯法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    self.is_palindorm = <span class="keyword">lambda</span> s : s == s[::<span class="number">-1</span>]</span><br><span class="line">    res = []        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(s, palindorm)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> s:        	</span><br><span class="line">            res.append(palindorm)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">            <span class="keyword">if</span> self.is_palindorm(s[:i+<span class="number">1</span>]):</span><br><span class="line">                dfs(s[i+<span class="number">1</span>:], palindorm + [s[:i+<span class="number">1</span>]])</span><br><span class="line">    dfs(s, [])</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="搜索练习"><a href="#搜索练习" class="headerlink" title="搜索练习"></a>搜索练习</h2><h3 id="Word-Ladder"><a href="#Word-Ladder" class="headerlink" title="Word Ladder"></a>Word Ladder</h3><p><a href="https://leetcode.com/problems/word-ladder/description/" target="_blank" rel="noopener">Leetcode : 127. Word Ladder (Medium)</a></p>
+<p>思路： 用队列保存每个能够有效变换的字符串，再遍历这个字符串的每个字符，将其每个字符变为 26 个字母中的任意一个，并保证新生成的 newWord ！= 原来的 word，如果 newWord 在 wordList 中，就把该 newWord 从 wordSet 中删除，并将 queue 的长度 +1, 最后的终止条件是有一个 word == endWord，此时返回长度，若到最后都没有找到这个 word，则返回 0。  </p>
+<p>使用到队列 queue 是因为需要先进先出，先变换到的词应该要先进行下一次变换，若 pop() 最后一个，可能会是新加进去的元素，这个时候已经进行了新的改变。</p>
+<p>改进：</p>
+<ol>
+<li>若直接用 wordList 会超时，而 set 比 list 快很多，因此将 wordList 转为 set。  </li>
+<li>替换字母时不需要用到 26个字母，只需要用到 wordList 中包含的字母即可，先得到所有不同的字母 alphas = set(‘’.join(wordList))</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ladderLength</span><span class="params">(self, beginWord, endWord, wordList)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> endWord <span class="keyword">not</span> <span class="keyword">in</span> wordList <span class="keyword">or</span> <span class="keyword">not</span> wordList:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    wordSet = set(wordList)</span><br><span class="line">    alphas = set(<span class="string">''</span>.join(wordSet))</span><br><span class="line">    queue = [[beginWord, <span class="number">1</span>]]</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        word, length = queue.pop(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> word == endWord:</span><br><span class="line">            <span class="keyword">return</span> length</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(word)):</span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> alphas:</span><br><span class="line">                newWord = word[:i] + c + word[i+<span class="number">1</span>:]</span><br><span class="line">                <span class="keyword">if</span> newWord <span class="keyword">in</span> wordSet <span class="keyword">and</span> newWord != word:</span><br><span class="line">                    wordSet.remove(newWord)</span><br><span class="line">                    queue.append([newWord, length+<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Surrounded-Regions"><a href="#Surrounded-Regions" class="headerlink" title="Surrounded Regions"></a>Surrounded Regions</h3><p><a href="https://leetcode.com/problems/surrounded-regions/description/" target="_blank" rel="noopener">Leetcode : 130. Surrounded Regions (Medium)</a></p>
+<p>思路：从边缘开始搜索，即搜索第一行和最后一行，第一列和最后一列，遇到 ‘O’，就搜索 ‘O’ 周围每条边的元素，并将 ‘O’ 置换为 ‘D’，这样的话边缘上的 ‘O’ 及与边缘相连的 ‘O’ 都会被置换为 ‘D’， 而内部被围住的 ‘O’ 并没有发生改变。 再遍历一遍 board，将 ‘O’ 全部变为 ‘X’，将 ‘D’ 全部变为 ‘O’。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve</span><span class="params">(self, board)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> board:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    n = len(board)</span><br><span class="line">    m = len(board[<span class="number">0</span>])</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(i, j)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> i &lt; <span class="number">0</span> <span class="keyword">or</span> i &gt;= n <span class="keyword">or</span> j &lt; <span class="number">0</span> <span class="keyword">or</span> j &gt;= m <span class="keyword">or</span> board[i][j] != <span class="string">'O'</span>:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        board[i][j] = <span class="string">'D'</span></span><br><span class="line">        dfs(i+<span class="number">1</span>, j)</span><br><span class="line">        dfs(i<span class="number">-1</span>, j)</span><br><span class="line">        dfs(i, j+<span class="number">1</span>)</span><br><span class="line">        dfs(i, j<span class="number">-1</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(m): <span class="comment"># 第0行和最后一行</span></span><br><span class="line">        <span class="keyword">if</span> board[<span class="number">0</span>][j] == <span class="string">'O'</span>:</span><br><span class="line">            dfs(<span class="number">0</span>, j)</span><br><span class="line">        <span class="keyword">if</span> board[n<span class="number">-1</span>][j] == <span class="string">'O'</span>:</span><br><span class="line">            dfs(n<span class="number">-1</span>, j)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n): <span class="comment"># 第0列和最后一列</span></span><br><span class="line">        <span class="keyword">if</span> board[i][<span class="number">0</span>] == <span class="string">'O'</span>:</span><br><span class="line">            dfs(i, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> board[i][m<span class="number">-1</span>] == <span class="string">'O'</span>:</span><br><span class="line">            dfs(i, m<span class="number">-1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="keyword">if</span> board[i][j] == <span class="string">'D'</span>:</span><br><span class="line">                board[i][j] = <span class="string">'O'</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                board[i][j] = <span class="string">'X'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Clone-Graph"><a href="#Clone-Graph" class="headerlink" title="Clone Graph"></a>Clone Graph</h3><p><a href="https://leetcode.com/problems/clone-graph/description/" target="_blank" rel="noopener">Leetcode : 133. Clone Graph (Medium)</a></p>
+<h3 id="Number-of-Islands"><a href="#Number-of-Islands" class="headerlink" title="Number of Islands"></a>Number of Islands</h3><p><a href="https://leetcode.com/problems/number-of-islands/description/" target="_blank" rel="noopener">Leetcode : 200. Number of Islands (Medium)</a></p>
+<p>思路： 和 130 类似，遍历一遍矩阵，遇到 ‘1’ 之后，就搜索 ‘1’ 周围的元素，并将 ‘1’ 变为 ‘0’，主函数中每调用一次 dfs，说明出现了一个新的 island，则让 cnt+1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numIslands</span><span class="params">(self, grid)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> grid:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line">    n = len(grid)</span><br><span class="line">    m = len(grid[<span class="number">0</span>])</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(i, j)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> i &lt; <span class="number">0</span> <span class="keyword">or</span> i &gt;= n <span class="keyword">or</span> j &lt; <span class="number">0</span>  <span class="keyword">or</span> j &gt;= m <span class="keyword">or</span> grid[i][j] != <span class="string">'1'</span>:</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        grid[i][j] = <span class="string">'0'</span></span><br><span class="line">        dfs(i<span class="number">-1</span>, j)</span><br><span class="line">        dfs(i+<span class="number">1</span>, j)</span><br><span class="line">        dfs(i, j+<span class="number">1</span>)</span><br><span class="line">        dfs(i, j<span class="number">-1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="keyword">if</span> grid[i][j] == <span class="string">'1'</span>:</span><br><span class="line">                dfs(i, j)</span><br><span class="line">                cnt += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> cnt</span><br></pre></td></tr></table></figure>
+
+<h3 id="Course-Schedule"><a href="#Course-Schedule" class="headerlink" title="Course Schedule"></a>Course Schedule</h3><p><a href="https://leetcode.com/problems/course-schedule/description/" target="_blank" rel="noopener">Leetcode : 207. Course Schedule (Medium)</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/DFS/" rel="tag"># DFS</a>
+          
+            <a href="/tags/BFS/" rel="tag"># BFS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/26/algorithms/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="next" title="leetcode 动态规划总结">
+                <i class="fa fa-chevron-left"></i> leetcode 动态规划总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/20/algorithms/%E7%AE%97%E6%B3%95-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="prev" title="leetcode 数据结构">
+                leetcode 数据结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Cactus" />
+          <p class="site-author-name" itemprop="name">Cactus</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xieyiyu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/cactus4869" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BFS"><span class="nav-number">1.</span> <span class="nav-text">BFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DFS"><span class="nav-number">2.</span> <span class="nav-text">DFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Backtracking"><span class="nav-number">3.</span> <span class="nav-text">Backtracking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Letter-Combinations-of-a-Phone-Number"><span class="nav-number">3.1.</span> <span class="nav-text">Letter Combinations of a Phone Number</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-Parentheses"><span class="nav-number">3.2.</span> <span class="nav-text">Generate Parentheses</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combination-Sum"><span class="nav-number">3.3.</span> <span class="nav-text">Combination Sum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combination-Sum-II"><span class="nav-number">3.4.</span> <span class="nav-text">Combination Sum II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combination-Sum-III"><span class="nav-number">3.5.</span> <span class="nav-text">Combination Sum III</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Permutations"><span class="nav-number">3.6.</span> <span class="nav-text">Permutations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Permutations-II"><span class="nav-number">3.7.</span> <span class="nav-text">Permutations II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#N-Queens"><span class="nav-number">3.8.</span> <span class="nav-text">N-Queens</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#N-Queens-II"><span class="nav-number">3.9.</span> <span class="nav-text">N-Queens II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combinations"><span class="nav-number">3.10.</span> <span class="nav-text">Combinations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Subsets"><span class="nav-number">3.11.</span> <span class="nav-text">Subsets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Subsets-II"><span class="nav-number">3.12.</span> <span class="nav-text">Subsets II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Search"><span class="nav-number">3.13.</span> <span class="nav-text">Word Search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Restore-IP-Addresses"><span class="nav-number">3.14.</span> <span class="nav-text">Restore IP Addresses</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Palindrome-Partitioning"><span class="nav-number">3.15.</span> <span class="nav-text">Palindrome Partitioning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索练习"><span class="nav-number">4.</span> <span class="nav-text">搜索练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Ladder"><span class="nav-number">4.1.</span> <span class="nav-text">Word Ladder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Surrounded-Regions"><span class="nav-number">4.2.</span> <span class="nav-text">Surrounded Regions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clone-Graph"><span class="nav-number">4.3.</span> <span class="nav-text">Clone Graph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number-of-Islands"><span class="nav-number">4.4.</span> <span class="nav-text">Number of Islands</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Course-Schedule"><span class="nav-number">4.5.</span> <span class="nav-text">Course Schedule</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cactus</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

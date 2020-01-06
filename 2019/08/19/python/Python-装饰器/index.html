@@ -1,0 +1,814 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="python 中的函数与 java、c++ 中不同之处在于： python 中的函数可以作为变量当做参数传入另一个函数中。装饰器 Decorator 本质上就是一个 python 函数，可以让其他函数在不需要任何代码变动的前提下增加额外功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 装饰器">
+<meta property="og:url" content="https:&#x2F;&#x2F;xieyiyu.github.io&#x2F;2019&#x2F;08&#x2F;19&#x2F;python&#x2F;Python-%E8%A3%85%E9%A5%B0%E5%99%A8&#x2F;index.html">
+<meta property="og:site_name" content="Cactus Blog">
+<meta property="og:description" content="python 中的函数与 java、c++ 中不同之处在于： python 中的函数可以作为变量当做参数传入另一个函数中。装饰器 Decorator 本质上就是一个 python 函数，可以让其他函数在不需要任何代码变动的前提下增加额外功能。">
+<meta property="article:published_time" content="2019-08-19T04:37:02.000Z">
+<meta property="article:modified_time" content="2019-08-26T09:00:22.000Z">
+<meta property="article:author" content="Cactus">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xieyiyu.github.io/2019/08/19/python/Python-装饰器/"/>
+
+
+
+
+
+  <title>Python 装饰器 | Cactus Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cactus Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://xieyiyu.github.io/2019/08/19/python/Python-%E8%A3%85%E9%A5%B0%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cactus">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cactus Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python 装饰器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-19T12:37:02+08:00">
+                2019-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>python 中的函数与 java、c++ 中不同之处在于： python 中的函数可以作为变量当做参数传入另一个函数中。装饰器 Decorator 本质上就是一个 python 函数，可以让其他函数在不需要任何代码变动的前提下增加额外功能。  </p>
+<a id="more"></a>
+
+<p>有了装饰器，就可以抽离出大量与函数本身功能无关的雷同代码到装饰器中并继续重用，也就是能够给函数增加额外的功能。装饰器的返回值是一个函数对象。</p>
+<p>常用场景：插入日志、性能测试、事务处理、缓存、权限校验等。 </p>
+<p>首先来看一个简单的例子： 如果有两个函数 foo1 和 foo2 都要实现在进入函数主体前，先处理日志的功能，那么我们可能会新定义一个函数 use_logging 来专门处理，这样 foo1 和 foo2 就只需要调用 use_logging，其他函数有需要也可以重用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_logging</span><span class="params">(func)</span>:</span></span><br><span class="line">    logging.warning(<span class="string">"%s is running"</span> % func.__name__) <span class="comment"># logging 的默认设置 warn 会输出，info 不会</span></span><br><span class="line">    func()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'i am foo1'</span>)</span><br><span class="line"></span><br><span class="line">use_logging(foo1)</span><br><span class="line"><span class="comment"># WARNING:root:foo1 is running</span></span><br><span class="line"><span class="comment"># i am foo1</span></span><br></pre></td></tr></table></figure>
+
+<p>这样看起来达到了我们的目的，实现了函数运行前先处理日志的功能，但是每次我们调用的是 use_logging 函数，而真正的业务逻辑是在 foo1 中，这样破坏了原有的代码结果，我们希望是能够直接调用 foo1 函数，这就可以用到装饰器来实现。</p>
+<h3 id="简单的装饰器"><a href="#简单的装饰器" class="headerlink" title="简单的装饰器"></a>简单的装饰器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_logging</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        logging.warning(<span class="string">"%s is running"</span> % fun.__name__)</span><br><span class="line">        <span class="keyword">return</span> func()</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'i am foo1'</span>)</span><br><span class="line"></span><br><span class="line">f = use_logging(foo1) <span class="comment"># use_logging 是一个装饰器，返回的是 wrapper，这里相当于是 f=wrapper</span></span><br><span class="line">f() <span class="comment"># 也就是执行 wrapper()，然后返回 func()，就是执行 foo1()</span></span><br></pre></td></tr></table></figure>
+
+<p>在这里 use_logging 装饰器把执行真正业务逻辑的函数 func 包裹在里面，也就是 foo1 被 use_logging 所装饰。 在这个例子中，函数进入和退出时 ，被称为一个横切面，这种编程方式被称为面向切面的编程。</p>
+<h3 id="使用语法糖"><a href="#使用语法糖" class="headerlink" title="使用语法糖 @"></a>使用语法糖 @</h3><p>语法糖： 指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会。</p>
+<p>@ 符号是装饰器的语法糖，放在函数定义之前，这样就不需要赋值，直接调用 foo1() 即可，这样 foo1() 不需要做任何修改，就可以增加额外的功能</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@use_logging</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">()</span>:</span></span><br><span class="line">	print(<span class="string">'i am foo1'</span>)</span><br><span class="line">foo1()</span><br></pre></td></tr></table></figure>
+
+<h3 id="args、-kwargs"><a href="#args、-kwargs" class="headerlink" title="*args、 **kwargs"></a>*args、 **kwargs</h3><p>如果业务逻辑函数 foo1 需要带参数，就可以给装饰器里的 wrapper 带上同样的参数，但可能有多个带有不同参数的函数需要使用装饰器 use_logging 的话，就可以使用 <code>*args，**kwargs</code> 来定义，这样不管 foo1 带有多少个参数，都可以完整的传到 func 中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_logging</span><span class="params">(func)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">		logging.warning(<span class="string">"%s is running"</span> % func.__name__)</span><br><span class="line">		<span class="keyword">return</span> func(*args, **kwargs) <span class="comment"># 可以让其用于任何函数，无论参数形式如何</span></span><br><span class="line">	<span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+
+<h3 id="带参数的装饰器"><a href="#带参数的装饰器" class="headerlink" title="带参数的装饰器"></a>带参数的装饰器</h3><p>在上面的装饰器中，我们只给装饰器传入了一个参数，也就是要执行的业务逻辑函数 func，但如果我们在调用装饰器时，想要加上其他参数，比如可以给日志定义级别，因为不同业务逻辑需要的日志级别可能不同，这时我们就可以给装饰器加上参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_logging</span><span class="params">(level)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> level == <span class="string">'warn'</span>:</span><br><span class="line">                logging.warning(<span class="string">"%s is running"</span> % func.__name__)</span><br><span class="line">            <span class="keyword">elif</span> level == <span class="string">'error'</span>:</span><br><span class="line">                logging.error(<span class="string">"%s has error"</span> % func.__name__)</span><br><span class="line">            <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@use_logging(level="warn")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">(name, msg)</span>:</span></span><br><span class="line">    print(<span class="string">'i am %s, %s'</span> %(name, msg))</span><br><span class="line"></span><br><span class="line">foo1(<span class="string">'foo1'</span>, <span class="string">'hello!'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这个带参数的装饰器实际上只是在原有装饰器的基础上再套上一层，是对原有装饰器的一个函数封装，并返回一个装饰器。</p>
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>相比于函数装饰器，类装饰器具有灵活度大、高内聚、封装性等优点。</p>
+<p>类装饰器使用类的 <code>__call__</code> 方法，当使用 @ 形式将装饰器附加到函数上时，就会调用此方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decor</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, func)</span>:</span></span><br><span class="line">        self._func = func</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> (<span class="string">'class decorator runing'</span>)</span><br><span class="line">        self._func()</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">'class decorator ending'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Decor</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'foo'</span>)</span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<h3 id="functools-wraps"><a href="#functools-wraps" class="headerlink" title="functools.wraps"></a>functools.wraps</h3><p>使用装饰器会使得原函数的一些元信息消失，比如 <code>__name__</code>, <code>__doc__</code> 会被装饰器的替代。比如之前的装饰器在最后打印 <code>print(foo1.__name__)</code>，得到的是 wrapper，而不是 foo1.</p>
+<p>可以使用 functools.wraps 来进行装饰器修复，wraps 本身是一个装饰器，能够把原函数的元信息拷贝到装饰器里的 func 函数中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps <span class="comment"># 导入模块</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_logging</span><span class="params">(level)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">        @wraps(func) # 使用 wraps，记得要传入 func</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@use_logging(level="warn")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">(name, msg)</span>:</span></span><br><span class="line">    print(<span class="string">'i am %s, %s'</span> %(name, msg))</span><br><span class="line"></span><br><span class="line">foo1(<span class="string">'foo1'</span>, <span class="string">'hello!'</span>)</span><br><span class="line">print(foo1.__name__) <span class="comment"># foo1, 如果不加 @wraps(func)，打印出的是 wrapper</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="装饰器执行顺序"><a href="#装饰器执行顺序" class="headerlink" title="装饰器执行顺序"></a>装饰器执行顺序</h3><p>一个函数可以定义多个装饰器，执行顺序是从里到外，先调用最靠近函数的装饰器，下面的装饰器执行顺序为 c、b、a，也就是 foo = a(b(c(foo)))</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@a</span></span><br><span class="line"><span class="meta">@b</span></span><br><span class="line"><span class="meta">@c</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常用内置装饰器"><a href="#常用内置装饰器" class="headerlink" title="常用内置装饰器"></a>常用内置装饰器</h3><ol>
+<li>@staticmethod</li>
+<li>@classmethod</li>
+<li>@property<br>可以把类中的一个方法当做属性使用，调用时就只要 a.func, 而不用 a.func()。<br>被修饰的特性方法，内部可以实现处理逻辑，但对外提供统一的调用方式，遵循了统一访问的原则。</li>
+</ol>
+<p>在给一个类的属性比如分数 score 初始化时，为了限制它的范围，我们可以给它加上 set_score()、 get_score() 方法，然后在调用时通过 s.get_score(60) 来设置大小，get_score() 来获取值，但是这样调用又略显复杂，没有直接用属性那么简单。python 的 @property 装饰器就可以把方法变成一个属性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score</span><br><span class="line"></span><br><span class="line"><span class="meta">    @score.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'score must be an integer!'</span>)</span><br><span class="line">        <span class="keyword">if</span> value &lt; <span class="number">0</span> <span class="keyword">or</span> value &gt; <span class="number">100</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'score must between 0 ~ 100!'</span>)</span><br><span class="line">        self._score = value</span><br><span class="line"></span><br><span class="line">s = Student()</span><br><span class="line">s.score = <span class="number">60</span> <span class="comment"># 相当于是 s.get_score(60)</span></span><br><span class="line">s.score = <span class="string">'a'</span> <span class="comment"># ValueError: score must be an integer!</span></span><br><span class="line">s.score = <span class="number">101</span> <span class="comment"># ValueError: score must be an integer!</span></span><br></pre></td></tr></table></figure>
+
+<p>@property 本身创建了一个装饰器 @score.setter，负责把一个 setter 方法变成属性赋值，实际上就相当于之前自己定义的 set_score(); 当然也有一个 @score.getter 装饰器用来获取属性值。</p>
+<ol start="4">
+<li>functools.wraps<br>用在装饰器的代码里。可以把原始函数的<code>__name__</code>等属性复制到 wrapper() 函数中，这样就可以获取到真实函数的<code>__name__</code>属性，而不是 wrapper。</li>
+</ol>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包就是能够读取其他函数内部变量的函数，可以理解为定义在一个函数内部的函数，外部的叫外函数，内部的叫内函数。</p>
+<p>在一个外函数中定义了一个内函数，内函数用到了外函数的临时变量，外函数的返回值是内函数的引用，这就构成了闭包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(a)</span>:</span></span><br><span class="line">	b = <span class="number">10</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(x)</span>:</span></span><br><span class="line">		print(a * x + b) <span class="comment"># a,b 是 outer 的临时变量</span></span><br><span class="line">	<span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">demo = outer(<span class="number">1</span>)</span><br><span class="line">demo(<span class="number">2</span>) <span class="comment"># 输出 1*2+10 = 12</span></span><br></pre></td></tr></table></figure>
+
+<p>若要在内函数中修改闭包变量（外函数绑定给内函数的局部变量）：</p>
+<ol>
+<li>在 python3 中，用 nonlocal 关键字申明变量，表示这个变量不是局部变量空间的，需要向上一层变量空间中寻找该变量</li>
+<li>在 python2 中，没有 nonlocal 关键字，但可以把闭包变量改为可变类型数据进行修改，如 set、list、dict</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(a)</span>:</span></span><br><span class="line">	b = <span class="number">10</span></span><br><span class="line">	c = [a]</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">		<span class="keyword">nonlocal</span> b</span><br><span class="line">		b += <span class="number">1</span> <span class="comment"># 方法1</span></span><br><span class="line">		c[<span class="number">0</span>] += <span class="number">1</span> <span class="comment"># 方法2</span></span><br><span class="line">		print(b, c[<span class="number">0</span>])</span><br><span class="line">	<span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">demo = outer(<span class="number">1</span>)</span><br><span class="line">demo() <span class="comment"># 输出 11, 2</span></span><br></pre></td></tr></table></figure>
+
+<p>在使用闭包的过程中，一旦外函数被调用一次返回了内函数的引用，虽然每次调用内函数，是开启一个函数执行过后消亡，但是闭包变量实际上只有一份，每次开启内函数都在使用同一份闭包变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(a)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(b)</span>:</span></span><br><span class="line">		<span class="keyword">nonlocal</span> a</span><br><span class="line">		a += b</span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	<span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">demo = outer(<span class="number">1</span>)</span><br><span class="line">demo(<span class="number">2</span>) <span class="comment"># 输出 1+2=3</span></span><br><span class="line">demo(<span class="number">3</span>) <span class="comment"># 输出 3+3=6</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="装饰器实战"><a href="#装饰器实战" class="headerlink" title="装饰器实战"></a>装饰器实战</h3><h4 id="装饰器为访问页面添加登录验证功能"><a href="#装饰器为访问页面添加登录验证功能" class="headerlink" title="装饰器为访问页面添加登录验证功能"></a>装饰器为访问页面添加登录验证功能</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义用户字典</span></span><br><span class="line">users = &#123;<span class="string">'xieyiyu'</span>: <span class="string">'123456'</span>,</span><br><span class="line">         <span class="string">'lily'</span>: <span class="string">'123'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化当前用户名，无用户名，登录状态为 False</span></span><br><span class="line">current_user = &#123;<span class="string">'username'</span>: <span class="literal">None</span>, <span class="string">'login'</span>: <span class="literal">False</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建装饰器</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">auth_deco</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># 若已经登录，执行基本函数</span></span><br><span class="line">        <span class="keyword">if</span> current_user[<span class="string">'username'</span>] <span class="keyword">and</span> current_user[<span class="string">'login'</span>]:</span><br><span class="line">            <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">        <span class="comment"># 若未登录，提示用户输入用户名和密码</span></span><br><span class="line">        username = input(<span class="string">'请输入用户名：'</span>).strip()</span><br><span class="line">        passwd = input(<span class="string">'请输入密码：'</span>).strip()</span><br><span class="line">        <span class="comment"># 验证用户名和密码是否正确</span></span><br><span class="line">        <span class="keyword">if</span> username <span class="keyword">not</span> <span class="keyword">in</span> users.keys():</span><br><span class="line">            print(<span class="string">'用户名不存在'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> passwd == users[username]: <span class="comment"># 登录成功，将 current_user 设置为该用户</span></span><br><span class="line">                current_user[<span class="string">'username'</span>] = username</span><br><span class="line">                current_user[<span class="string">'login'</span>] = <span class="literal">True</span></span><br><span class="line">                print(<span class="string">'登录成功'</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">'用户名或密码输入错误，请重新登录'</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@auth_deco</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span> <span class="comment"># 在进入页面前先校验用户是否登录了</span></span><br><span class="line">    <span class="keyword">if</span> current_user[<span class="string">'username'</span>]:</span><br><span class="line">        print(<span class="string">'你好, %s'</span> %current_user[<span class="string">'username'</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'请先登录'</span>)</span><br><span class="line"></span><br><span class="line">index()</span><br></pre></td></tr></table></figure>
+
+<h4 id="用装饰器实现数据库连接"><a href="#用装饰器实现数据库连接" class="headerlink" title="用装饰器实现数据库连接"></a>用装饰器实现数据库连接</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://foofish.net/python-decorator.html" target="_blank" rel="noopener">理解 Python 装饰器看这一篇就够了</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/10/python/Python-decimal-%E6%A8%A1%E5%9D%97/" rel="next" title="Python decimal 模块">
+                <i class="fa fa-chevron-left"></i> Python decimal 模块
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/23/python/Python-%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" rel="prev" title="Python 迭代器与生成器">
+                Python 迭代器与生成器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Cactus" />
+          <p class="site-author-name" itemprop="name">Cactus</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xieyiyu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/cactus4869" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的装饰器"><span class="nav-number">1.</span> <span class="nav-text">简单的装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用语法糖"><span class="nav-number">2.</span> <span class="nav-text">使用语法糖 @</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#args、-kwargs"><span class="nav-number">3.</span> <span class="nav-text">*args、 **kwargs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带参数的装饰器"><span class="nav-number">4.</span> <span class="nav-text">带参数的装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类装饰器"><span class="nav-number">5.</span> <span class="nav-text">类装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#functools-wraps"><span class="nav-number">6.</span> <span class="nav-text">functools.wraps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器执行顺序"><span class="nav-number">7.</span> <span class="nav-text">装饰器执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用内置装饰器"><span class="nav-number">8.</span> <span class="nav-text">常用内置装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">9.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器实战"><span class="nav-number">10.</span> <span class="nav-text">装饰器实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#装饰器为访问页面添加登录验证功能"><span class="nav-number">10.1.</span> <span class="nav-text">装饰器为访问页面添加登录验证功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用装饰器实现数据库连接"><span class="nav-number">10.2.</span> <span class="nav-text">用装饰器实现数据库连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">11.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cactus</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
