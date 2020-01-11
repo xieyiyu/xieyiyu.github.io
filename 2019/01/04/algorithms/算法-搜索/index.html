@@ -1,375 +1,176 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<!DOCTYPE html>
+<html lang=zh>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="leetcode,算法,DFS,BFS," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
-
-
-
-
-
-
-<meta name="description" content="在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode 搜索算法">
-<meta property="og:url" content="https:&#x2F;&#x2F;xieyiyu.github.io&#x2F;2019&#x2F;01&#x2F;04&#x2F;algorithms&#x2F;%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2&#x2F;index.html">
-<meta property="og:site_name" content="Cactus Blog">
+<meta property="og:url" content="https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/index.html">
+<meta property="og:site_name" content="Cactus&#39;s blog">
 <meta property="og:description" content="在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。">
-<meta property="og:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;BFS.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;DFS.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;n-queens.png">
-<meta property="article:published_time" content="2019-01-04T09:26:07.000Z">
-<meta property="article:modified_time" content="2019-07-28T05:32:34.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/BFS.jpg">
+<meta property="og:image" content="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/DFS.png">
+<meta property="og:image" content="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/n-queens.png">
+<meta property="article:published_time" content="2019-01-04T17:26:07.000Z">
+<meta property="article:modified_time" content="2020-01-11T13:02:31.078Z">
 <meta property="article:author" content="Cactus">
 <meta property="article:tag" content="leetcode">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="DFS">
 <meta property="article:tag" content="BFS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;dty6stpv6&#x2F;image&#x2F;upload&#x2F;v1552209599&#x2F;BFS.jpg">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="https://xieyiyu.github.io/2019/01/04/algorithms/算法-搜索/"/>
-
-
-
-
-
-  <title>leetcode 搜索算法 | Cactus Blog</title>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<meta name="generator" content="Hexo 4.1.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
+<meta name="twitter:image" content="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/BFS.jpg">
     
-  
-
-  <div class="container sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
     
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>leetcode 搜索算法</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
 
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Cactus Blog</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Cactus&#39;s blog" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Archives</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/01/20/algorithms/%E7%AE%97%E6%B3%95-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/12/26/algorithms/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&text=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&is_video=false&description=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=leetcode 搜索算法&body=Check out this article: https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&name=leetcode 搜索算法&description=&lt;p&gt;在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&t=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
     </div>
-      
-        <p class="site-subtitle"></p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS"><span class="toc-number">1.</span> <span class="toc-text">BFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS"><span class="toc-number">2.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backtracking"><span class="toc-number">3.</span> <span class="toc-text">Backtracking</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Letter-Combinations-of-a-Phone-Number"><span class="toc-number">3.1.</span> <span class="toc-text">Letter Combinations of a Phone Number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-Parentheses"><span class="toc-number">3.2.</span> <span class="toc-text">Generate Parentheses</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combination-Sum"><span class="toc-number">3.3.</span> <span class="toc-text">Combination Sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combination-Sum-II"><span class="toc-number">3.4.</span> <span class="toc-text">Combination Sum II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combination-Sum-III"><span class="toc-number">3.5.</span> <span class="toc-text">Combination Sum III</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Permutations"><span class="toc-number">3.6.</span> <span class="toc-text">Permutations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Permutations-II"><span class="toc-number">3.7.</span> <span class="toc-text">Permutations II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N-Queens"><span class="toc-number">3.8.</span> <span class="toc-text">N-Queens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N-Queens-II"><span class="toc-number">3.9.</span> <span class="toc-text">N-Queens II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combinations"><span class="toc-number">3.10.</span> <span class="toc-text">Combinations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subsets"><span class="toc-number">3.11.</span> <span class="toc-text">Subsets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subsets-II"><span class="toc-number">3.12.</span> <span class="toc-text">Subsets II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Word-Search"><span class="toc-number">3.13.</span> <span class="toc-text">Word Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Restore-IP-Addresses"><span class="toc-number">3.14.</span> <span class="toc-text">Restore IP Addresses</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Palindrome-Partitioning"><span class="toc-number">3.15.</span> <span class="toc-text">Palindrome Partitioning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索练习"><span class="toc-number">4.</span> <span class="toc-text">搜索练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Word-Ladder"><span class="toc-number">4.1.</span> <span class="toc-text">Word Ladder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Surrounded-Regions"><span class="toc-number">4.2.</span> <span class="toc-text">Surrounded Regions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clone-Graph"><span class="toc-number">4.3.</span> <span class="toc-text">Clone Graph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Number-of-Islands"><span class="toc-number">4.4.</span> <span class="toc-text">Number of Islands</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Course-Schedule"><span class="toc-number">4.5.</span> <span class="toc-text">Course Schedule</span></a></li></ol></li></ol>
+    </div>
+  </span>
 </div>
 
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Cactus">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Cactus Blog">
-    </span>
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-      <header class="post-header">
+    <h1 class="posttitle" itemprop="name headline">
+        leetcode 搜索算法
+    </h1>
 
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Cactus's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-01-04T17:26:07.000Z" itemprop="datePublished">2019-01-04</time>
         
-        
-          <h1 class="post-title" itemprop="name headline">leetcode 搜索算法</h1>
-        
+      
+    </div>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-04T17:26:07+08:00">
-                2019-01-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
 
       
-      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+    </div>
+
 
       
-        <p>在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。</p>
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/BFS/" rel="tag">BFS</a>, <a class="tag-link" href="/tags/DFS/" rel="tag">DFS</a>, <a class="tag-link" href="/tags/leetcode/" rel="tag">leetcode</a>, <a class="tag-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。</p>
 <a id="more"></a>
 
 <h2 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h2><div align="center"><img src="https://res.cloudinary.com/dty6stpv6/image/upload/v1552209599/BFS.jpg"></div>
@@ -497,395 +298,142 @@
 
 <h3 id="Course-Schedule"><a href="#Course-Schedule" class="headerlink" title="Course Schedule"></a>Course Schedule</h3><p><a href="https://leetcode.com/problems/course-schedule/description/" target="_blank" rel="noopener">Leetcode : 207. Course Schedule (Medium)</a></p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
-          
-            <a href="/tags/DFS/" rel="tag"># DFS</a>
-          
-            <a href="/tags/BFS/" rel="tag"># BFS</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/12/26/algorithms/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="next" title="leetcode 动态规划总结">
-                <i class="fa fa-chevron-left"></i> leetcode 动态规划总结
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/20/algorithms/%E7%AE%97%E6%B3%95-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="prev" title="leetcode 数据结构">
-                leetcode 数据结构 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
+</article>
 
 
-          </div>
-          
 
-
-          
-  <div class="comments" id="comments">
-    
-  </div>
-
-
-        </div>
         
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Archives</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
     </div>
-  </div>
 
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFS"><span class="toc-number">1.</span> <span class="toc-text">BFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS"><span class="toc-number">2.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backtracking"><span class="toc-number">3.</span> <span class="toc-text">Backtracking</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Letter-Combinations-of-a-Phone-Number"><span class="toc-number">3.1.</span> <span class="toc-text">Letter Combinations of a Phone Number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-Parentheses"><span class="toc-number">3.2.</span> <span class="toc-text">Generate Parentheses</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combination-Sum"><span class="toc-number">3.3.</span> <span class="toc-text">Combination Sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combination-Sum-II"><span class="toc-number">3.4.</span> <span class="toc-text">Combination Sum II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combination-Sum-III"><span class="toc-number">3.5.</span> <span class="toc-text">Combination Sum III</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Permutations"><span class="toc-number">3.6.</span> <span class="toc-text">Permutations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Permutations-II"><span class="toc-number">3.7.</span> <span class="toc-text">Permutations II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N-Queens"><span class="toc-number">3.8.</span> <span class="toc-text">N-Queens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N-Queens-II"><span class="toc-number">3.9.</span> <span class="toc-text">N-Queens II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Combinations"><span class="toc-number">3.10.</span> <span class="toc-text">Combinations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subsets"><span class="toc-number">3.11.</span> <span class="toc-text">Subsets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subsets-II"><span class="toc-number">3.12.</span> <span class="toc-text">Subsets II</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Word-Search"><span class="toc-number">3.13.</span> <span class="toc-text">Word Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Restore-IP-Addresses"><span class="toc-number">3.14.</span> <span class="toc-text">Restore IP Addresses</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Palindrome-Partitioning"><span class="toc-number">3.15.</span> <span class="toc-text">Palindrome Partitioning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索练习"><span class="toc-number">4.</span> <span class="toc-text">搜索练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Word-Ladder"><span class="toc-number">4.1.</span> <span class="toc-text">Word Ladder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Surrounded-Regions"><span class="toc-number">4.2.</span> <span class="toc-text">Surrounded Regions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clone-Graph"><span class="toc-number">4.3.</span> <span class="toc-text">Clone Graph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Number-of-Islands"><span class="toc-number">4.4.</span> <span class="toc-text">Number of Islands</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Course-Schedule"><span class="toc-number">4.5.</span> <span class="toc-text">Course Schedule</span></a></li></ol></li></ol>
+    </div>
 
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
-               alt="Cactus" />
-          <p class="site-author-name" itemprop="name">Cactus</p>
-           
-              <p class="site-description motion-element" itemprop="description"></p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">30</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">40</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/xieyiyu" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/cactus4869" target="_blank" title="Weibo">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  Weibo
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-
-        
-
-
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BFS"><span class="nav-number">1.</span> <span class="nav-text">BFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DFS"><span class="nav-number">2.</span> <span class="nav-text">DFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Backtracking"><span class="nav-number">3.</span> <span class="nav-text">Backtracking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Letter-Combinations-of-a-Phone-Number"><span class="nav-number">3.1.</span> <span class="nav-text">Letter Combinations of a Phone Number</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-Parentheses"><span class="nav-number">3.2.</span> <span class="nav-text">Generate Parentheses</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combination-Sum"><span class="nav-number">3.3.</span> <span class="nav-text">Combination Sum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combination-Sum-II"><span class="nav-number">3.4.</span> <span class="nav-text">Combination Sum II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combination-Sum-III"><span class="nav-number">3.5.</span> <span class="nav-text">Combination Sum III</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Permutations"><span class="nav-number">3.6.</span> <span class="nav-text">Permutations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Permutations-II"><span class="nav-number">3.7.</span> <span class="nav-text">Permutations II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#N-Queens"><span class="nav-number">3.8.</span> <span class="nav-text">N-Queens</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#N-Queens-II"><span class="nav-number">3.9.</span> <span class="nav-text">N-Queens II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combinations"><span class="nav-number">3.10.</span> <span class="nav-text">Combinations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Subsets"><span class="nav-number">3.11.</span> <span class="nav-text">Subsets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Subsets-II"><span class="nav-number">3.12.</span> <span class="nav-text">Subsets II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Search"><span class="nav-number">3.13.</span> <span class="nav-text">Word Search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Restore-IP-Addresses"><span class="nav-number">3.14.</span> <span class="nav-text">Restore IP Addresses</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Palindrome-Partitioning"><span class="nav-number">3.15.</span> <span class="nav-text">Palindrome Partitioning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索练习"><span class="nav-number">4.</span> <span class="nav-text">搜索练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Ladder"><span class="nav-number">4.1.</span> <span class="nav-text">Word Ladder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Surrounded-Regions"><span class="nav-number">4.2.</span> <span class="nav-text">Surrounded Regions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clone-Graph"><span class="nav-number">4.3.</span> <span class="nav-text">Clone Graph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number-of-Islands"><span class="nav-number">4.4.</span> <span class="nav-text">Number of Islands</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Course-Schedule"><span class="nav-number">4.5.</span> <span class="nav-text">Course Schedule</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&text=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&is_video=false&description=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=leetcode 搜索算法&body=Check out this article: https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&title=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&name=leetcode 搜索算法&description=&lt;p&gt;在图的基本算法中，最初需要接触的就是图的遍历算法，根据访问节点的顺序，可分为广度优先搜索（BFS）和深度优先搜索（DFS）。&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://xieyiyu.github.io/2019/01/04/algorithms/%E7%AE%97%E6%B3%95-%E6%90%9C%E7%B4%A2/&t=leetcode 搜索算法" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
 
     </div>
-  </aside>
 
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
 
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2017 - 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Cactus</span>
+  </div>
 </div>
 
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
-</div>
-
-
         
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Cactus
   </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Archives</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
 
   
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
