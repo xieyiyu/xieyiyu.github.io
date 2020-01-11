@@ -101,6 +101,8 @@ deploy:
   type: ''
 
 theme_config:
+  posts_overview:
+    show_all_posts: true
   colorscheme: classic
   nav:
     Home: /
