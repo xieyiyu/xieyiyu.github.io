@@ -27,7 +27,7 @@ jobs:
     - name: Install Dependencies
       run: npm install
     - name: Hexo Build
-      run: hexo g
+      run: npm run-script build
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
